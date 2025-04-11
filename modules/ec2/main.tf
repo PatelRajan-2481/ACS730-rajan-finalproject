@@ -9,5 +9,6 @@ resource "aws_instance" "webservers" {
 
   tags = {
     Name = "${var.name_prefix}-${var.webserver_names[count.index]}"
+    Role = "Webserver"
   }
 }
