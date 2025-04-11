@@ -32,6 +32,18 @@ module "ec2" {
   security_group_id  = module.security.security_group_id          
 }
 
+module "webserver4" {
+  source             = "../../modules/ec2"
+  name_prefix        = "Rajan-Dev"
+  ami_id             = "ami-0c02fb55956c7d316"
+  instance_type      = "t2.micro"
+  subnet_ids         = [module.networking.public_subnet_ids[3]] # Subnet 4
+  webserver_names    = ["Webserver4"]
+  key_name           = "rajan-key"
+  security_group_id  = module.security.security_group_id
+}
+
+
 module "database" {
   source             = "../../modules/ec2"
   name_prefix        = "Rajan-Dev"
