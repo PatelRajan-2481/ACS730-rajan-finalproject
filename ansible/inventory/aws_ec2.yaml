@@ -1,0 +1,15 @@
+plugin: aws_ec2
+aws_profile: default
+regions:
+  - us-east-1
+filters:
+  tag:Name:
+    - "Rajan-Dev-Webserver1"
+    - "Rajan-Dev-Webserver3"
+    - "Rajan-Dev-Webserver4"
+  instance-state-name: running
+keyed_groups:
+  - key: tags.Name
+    prefix: instance
+hostnames:
+  - ip-address

@@ -1,0 +1,29 @@
+---
+- name: Configure Apache Webservers
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update all packages to their latest version
+      yum:
+        name: "*"
+        state: latest
+        
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Copy custom index.html to web root
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0644'
+
+    - name: Start and enable Apache service
+      service:
+        name: httpd
+        state: started
+        enabled: true
