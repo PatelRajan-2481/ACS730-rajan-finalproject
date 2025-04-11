@@ -9,6 +9,6 @@ variable "name_prefix" {
 }
 
 variable "allowed_ssh_cidr" {
-  description = "CIDR block allowed to SSH (your IP or 0.0.0.0/0)"
+  description = "CIDR block allowed to SSH (Cloud9 IP or 0.0.0.0/0)"
   type        = string
 }
