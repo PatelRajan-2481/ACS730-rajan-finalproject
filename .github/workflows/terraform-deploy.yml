@@ -1,0 +1,27 @@
+name: Terraform Apply to Prod
+
+on:
+  push:
+    branches: [prod]
+
+jobs:
+  terraform-deploy:
+    name: Deploy to Prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize Terraform
+        run: |
+          cd environments/prod
+          terraform init
+
+      - name: Apply Terraform
+        run: |
+          cd environments/prod
+          terraform apply -auto-approve
