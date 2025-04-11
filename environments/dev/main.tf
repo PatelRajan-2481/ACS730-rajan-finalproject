@@ -31,3 +31,25 @@ module "ec2" {
   key_name           = "rajan-key"             
   security_group_id  = module.security.security_group_id          
 }
+
+module "database" {
+  source             = "../../modules/ec2"
+  name_prefix        = "Rajan-Dev"
+  ami_id             = "ami-0c02fb55956c7d316"
+  instance_type      = "t2.micro"
+  subnet_ids         = [module.networking.private_subnet_ids[0]]
+  webserver_names    = ["DatabaseServer"]
+  key_name           = "rajan-key"
+  security_group_id  = module.security.security_group_id
+}
+module "vm6" {
+  source             = "../../modules/ec2"
+  name_prefix        = "Rajan-Dev"
+  ami_id             = "ami-0c02fb55956c7d316"
+  instance_type      = "t2.micro"
+  subnet_ids         = [module.networking.private_subnet_ids[1]]
+  webserver_names    = ["VM6"]
+  key_name           = "rajan-key"
+  security_group_id  = module.security.security_group_id
+}
+
