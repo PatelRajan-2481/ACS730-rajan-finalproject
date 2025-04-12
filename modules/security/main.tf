@@ -42,7 +42,7 @@ resource "aws_security_group" "private_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-  # Bastion subnet CIDR
+    # Bastion subnet CIDR
     cidr_blocks = ["10.1.2.0/24"]
   }
 
