@@ -14,11 +14,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Install boto and dependencies for dynamic inventory
+      - name: Run Ansible Playbook with Correct Python
+        env:
+          ANSIBLE_PYTHON_INTERPRETER: /usr/bin/python3
         run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-pip
-          pip3 install boto3 botocore
+          ansible-playbook -i ansible/inventory/aws_ec2.yaml ansible/playbooks/install_apache.yaml
+
 
 
       - name: Run Ansible Playbook
