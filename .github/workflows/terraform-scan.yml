@@ -4,6 +4,10 @@ on:
   push:
     branches: [staging]
 
+  pull_request:
+    branches: [prod]
+
+
 jobs:
   terraform-check:
     name: Terraform Format & Lint
