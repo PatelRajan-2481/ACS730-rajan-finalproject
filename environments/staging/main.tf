@@ -52,7 +52,7 @@ module "database" {
   subnet_ids        = [module.networking.private_subnet_ids[0]]
   webserver_names   = ["DatabaseServer"]
   key_name          = "rajan-key"
-  security_group_id = module.security.security_group_id
+  security_group_id = module.security.private_security_group_id
 }
 module "vm6" {
   source            = "../../modules/ec2"
@@ -62,5 +62,5 @@ module "vm6" {
   subnet_ids        = [module.networking.private_subnet_ids[1]]
   webserver_names   = ["VM6"]
   key_name          = "rajan-key"
-  security_group_id = module.security.security_group_id
+  security_group_id = module.security.private_security_group_id
 }
