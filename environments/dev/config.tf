@@ -8,6 +8,7 @@ terraform {
     }
   }
 }
+
 terraform {
   backend "s3" {
     bucket  = "acs730-rajan-dev-tfstate"
