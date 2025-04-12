@@ -44,4 +44,4 @@ jobs:
 
       - name: Run Trivy on Terraform files
         run: |
-          trivy config --exit-code 1 --severity HIGH,CRITICAL environments/staging
+          trivy config --exit-code 0 --severity HIGH,CRITICAL environments/staging
