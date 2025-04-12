@@ -64,5 +64,3 @@ module "vm6" {
   key_name          = "rajan-key"
   security_group_id = module.security.security_group_id
 }
-
-#Test 
