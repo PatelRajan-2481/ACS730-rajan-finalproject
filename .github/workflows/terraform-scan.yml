@@ -34,7 +34,7 @@ jobs:
         run: |
           for dir in environments/*; do
             if [ -d "$dir" ]; then
-              echo "🔎 Running TFLint in $dir"
+              
               cd "$dir"
               tflint || echo " TFLint warning in $dir"
               cd -
@@ -52,7 +52,7 @@ jobs:
         with:
           sarif_file: tfsec.sarif
 
-      - name: Install Trivy (silent run)
+      - name: Install Trivy 
         run: |
           sudo apt-get install -y wget apt-transport-https gnupg lsb-release
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
