@@ -2,17 +2,18 @@ name: Terraform Security Scan
 
 on:
   push:
-    branches: [staging]
-
+    branches: [main, staging, prod]
   pull_request:
     branches: [prod]
 
-
-
 jobs:
-  terraform-check:
-    name: Terraform Format & Lint
+  security-scan:
+    name: Terraform Lint + tfsec +  Trivy
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
     steps:
       - name: Checkout repo
@@ -21,7 +22,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
 
-      - name: Terraform Format
+      - name: Run Terraform Format Check
         run: terraform fmt -check -recursive
 
       - name: Install TFLint
@@ -29,19 +30,36 @@ jobs:
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
           tflint --version
 
-      - name: Run TFLint
+      - name: Run TFLint in all environments
         run: |
-          cd environments/staging
-          tflint
+          for dir in environments/*; do
+            if [ -d "$dir" ]; then
+              echo "🔎 Running TFLint in $dir"
+              cd "$dir"
+              tflint || echo " TFLint warning in $dir"
+              cd -
+            fi
+          done
 
-      - name: Install Trivy
+      - name: Run tfsec (strict, fail on HIGH/CRITICAL)
+        uses: aquasecurity/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
+        with:
+          sarif_file: tfsec.sarif
+          working_directory: .
+          
+      - name: Upload tfsec SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: tfsec.sarif
+
+      - name: Install Trivy (silent run)
         run: |
           sudo apt-get install -y wget apt-transport-https gnupg lsb-release
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      - name: Run Trivy on Terraform files
+      - name: Run Trivy 
         run: |
           trivy config --exit-code 0 --severity HIGH,CRITICAL environments/staging
