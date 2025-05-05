@@ -1,4 +1,4 @@
-# ACS730 Final Project - Two-Tier Web Application Infrastructure with Terraform, Ansible, and GitHub Actions
+# Two-Tier Web Application Infrastructure with Terraform, Ansible, and GitHub Actions
 
 
 
@@ -6,8 +6,7 @@
 ## Project Author
 **Name**: Rajan Patel  
 **GitHub**: [PatelRajan-2481](https://github.com/PatelRajan-2481)  
-**Course**: ACS730 - Cloud Infrastructure Automation  
-**Section**: Winter 2025 - NBB  
+
 
 ---
 
